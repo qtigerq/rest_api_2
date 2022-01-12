@@ -18,7 +18,6 @@
   "homepage": "https://github.com/qtigerq/rest_api#readme",
   "dependencies": {
     "axios": "^0.24.0",
-    "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "jest": "^27.4.7",
     "nodemon": "^2.0.15",

@@ -8,13 +8,13 @@ app.use('/', require('./route/postsRoute'));                //Delega para postRo
 app.use(function(error, req, res, next) {                   //Tratamento de erros (ERROR HANDLER)
 
     if (error.message === 'Post already exists') {
-        res.status(409).send(e.message);                    //devolve o status finaliza devolveldo a mensagem de erro para o cliente
+        res.status(409).send(error.message);                    //devolve o status finaliza devolveldo a mensagem de erro para o cliente
     }
     if (error.message === 'Post not found') {
-        res.status(404).send(e.message);                    //''
+        res.status(404).send(error.message);                    //''
     }
 
-    response.status(500).send(e.message);                   //Caso não saiba o erro, retorna 500 (INTERNAL SERVER ERROR)
+    res.status(500).send(error.message);                   //Caso não saiba o erro, retorna 500 (INTERNAL SERVER ERROR)
     
 
 });

@@ -10,8 +10,8 @@ const request = (url, method, data) => {                                        
     return axios({url, method, data, validateStatus: false});                                   //ValidadeStatus: falso faz com que o Axios não valide o status automaticamente e deixe o controle na mão do programador.
 }                                                                                                   //visto que ele aborta o fluxo de execução caso o status seja diferente de 200.
 
-const createRandomPost = async () => {
-    return await postsService.savePost({ title: generate(6), content: generate(10)});
+const createRandomPost = () => {
+    return postsService.savePost({ title: generate(6), content: generate(10)});
 }
 
 //TESTE QUE SERVIRÁ DE MODELO PARA OS DEMAIS
@@ -19,9 +19,9 @@ test('Should get posts', async function(){
     
     //given - "dado que" (INSERE DADOS NA BASE PARA FAZER O TESTE)
     //const post1 = await postsService.savePost({ title: generate(6), content: generate(10)});    //await para esperar inserir antes de continuar o teste, senao pode dar resultado errado
-    const post1 = createRandomPost();
-    const post2 = await postsService.savePost({ title: generate(6), content: generate(10)});
-    const post3 = await postsService.savePost({ title: generate(6), content: generate(10)});
+    const post1 = await createRandomPost();
+    const post2 = await createRandomPost();
+    const post3 = await createRandomPost();
     
     //when - "quando acontecer"
     const response = await request('http://localhost:3000/posts', 'get');
@@ -65,7 +65,7 @@ test('Should not save a post', async function(){
 
 test('Should update a post', async function(){
     
-    const post = await postsService.savePost({ title: generate(6), content: generate(10)});      //Insere um post aleatório no banco de dados
+    const post = await createRandomPost();                                                       //Insere um post aleatório no banco de dados
 
     post.title = generate(6);                                                                    //Modifica o title do post (mas ainda não no banco)
     post.content = generate(10);                                                                 //''
@@ -91,7 +91,7 @@ test('Should not update a post', async function(){
 
 test('Should delete a post', async function(){
     
-    const post = await postsService.savePost({ title: generate(6), content: generate(10)});      //Insere um post aleatório no banco de dados
+    const post = await createRandomPost();                                                       //Insere um post aleatório no banco de dados
 
     const response = await request(`http://localhost:3000/posts/${post.id}`, 'delete');          //enviar a requisição com o ID para deletar o post no Banco de dados
     expect(response.status).toBe(204);                                                           //(REST) - Espera que o código de retorno seja 204 (NO CONTENT)
